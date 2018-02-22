@@ -1,0 +1,2 @@
+AppSecret = 'secret'
+DBName = 'baasdb'
