@@ -5,12 +5,16 @@ from AuthFunctions import CheckUser
 class AuthMiddleware(object):
 	def __init__(self, app):
 		self.app = app
+		self.whitelist = ['login', 'signup']
 
 	def killUnauthorized(self, response):
 		write = self.start_response('401 Unauthorized', [('Content-Type', 'text/json')])
 		return response
 
 	def __call__(self, environ, start_response):
+		if environ['PATH_INFO'][1:] in self.whitelist:
+			return self.app(environ, start_response)
+			
 		self.start_response = start_response
 
 		token = environ.get('HTTP_AUTHTOKEN', False)
@@ -27,6 +31,5 @@ class AuthMiddleware(object):
 		if CheckUser(user):
 			return self.app(environ, start_response)
 		else:
-			write = start_response('401 Unauthorized', [('Content-Type', 'text/html')])
 			msg = json.dumps({"code": 2, "message": "Unauthorized"})
 			return self.killUnauthorized(msg)

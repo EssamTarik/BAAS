@@ -8,7 +8,10 @@ db = client[DBName]
 
 def CheckUser(user):
 	collection = db[UsersCollection]
-	res = list(collection.find(user))
+	email = user.get('email', '')
+	password = user.get('password', '')
+
+	res = list(collection.find({"email": email, "password": password}))
 	if len(res) > 0:
 		return res[0]
 	else:
