@@ -23,8 +23,8 @@ app.route('/signup', methods=['GET', 'POST'])(signup)
 app.route('/insert', methods=['PUT'])(insert)
 app.route('/update', methods=['PATCH'])(update)
 app.route('/insert', methods=['PATCH'])(updateByID)
-app.route('/findCondition', methods=['PATCH'])(findCondition)
-app.route('/findId', methods=['PATCH'])(findId)
+app.route('/findCondition', methods=['GET'])(findCondition)
+app.route('/findId', methods=['GET'])(findId)
 
 
 
