@@ -6,7 +6,8 @@ from Routes.Auth.signup import signup
 from Routes.insert import insert
 from Routes.update import update
 from Routes.updateById import updateByID
-
+from Routes.findCondition import findCondition
+from Routes.findId import findId
 
 
 app=Flask(__name__)
@@ -22,6 +23,9 @@ app.route('/signup', methods=['GET', 'POST'])(signup)
 app.route('/insert', methods=['PUT'])(insert)
 app.route('/update', methods=['PATCH'])(update)
 app.route('/insert', methods=['PATCH'])(updateByID)
+app.route('/findCondition', methods=['PATCH'])(findCondition)
+app.route('/findId', methods=['PATCH'])(findId)
+
 
 
 app.run(host='localhost',debug=True)
