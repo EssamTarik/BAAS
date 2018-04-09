@@ -23,10 +23,10 @@ def findId():
 	try:
 		db =client[receivedArgs['dbname']]
 		collection =db[receivedArgs['collection']] 
-		found=collection.find({"_id" :ObjectId(receivedArgs['id']) }) 
-		if found.count()==0 :
+		found = list(collection.find({"_id" :ObjectId(receivedArgs['id'])})) 
+		if len(found)==0 :
 			return json.dumps({"code": 2, "message":"data not found" })
 		
-		return json.dumps({"code": 1, "message":"successfully found" })
+		return json.dumps({"code": 1, "message": json.loads(dumps(found))})
 	except:
 		return json.dumps({"code": 2, "message":" That is not a valid ObjectId " })	

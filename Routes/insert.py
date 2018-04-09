@@ -1,12 +1,9 @@
-from flask import request
 from pymongo import MongoClient
 from bson.json_util import dumps
 import json
 from json import loads
 
 client = MongoClient()
-app=Flask(__name__)
-@app.route('/insert',methods=["PUT"])
 def insert():
 	requiredArgs=['dbname','collection','data']
 	receivedArgs=request.args
@@ -35,14 +32,3 @@ def insert():
 
 
 	return json.dumps({"code":1 ,"message":"date successfully inserted"})
-		
-
-  
-
-
-
-app.run(host='localhost',debug=True)
-		
-
-
-

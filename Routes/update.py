@@ -1,12 +1,10 @@
-from flask import request
 from pymongo import MongoClient
 from bson.json_util import dumps
 import json
 from json import loads
 
 client = MongoClient()
-app=Flask(__name__)
-@app.route('/update',methods=["PATCH"])
+
 def update():
 	requiredArgs=['dbname','collection','data','condition']
 	receivedArgs=request.args
@@ -38,11 +36,3 @@ def update():
 
 
 	return json.dumps({"code":1 ,"message":"date successfully updated"})
-		
-
-  
-
-
-
-app.run(host='localhost',debug=True)
-		

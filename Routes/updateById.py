@@ -1,4 +1,3 @@
-from flask import request
 from pymongo import MongoClient
 from bson.json_util import dumps
 import json
@@ -6,8 +5,7 @@ from json import loads
 from bson.objectid import ObjectId
 
 client = MongoClient()
-app=Flask(__name__)
-@app.route('/updateByID',methods=["PATCH"])
+
 def updateByID():
 	requiredArgs=['dbname','collection','data','id']
 	receivedArgs=request.args
@@ -37,11 +35,3 @@ def updateByID():
 
 
 	return json.dumps({"code":1 ,"message":"date successfully updated"})
-		
-
-  
-
-
-
-app.run(host='localhost',debug=True)
-		

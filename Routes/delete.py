@@ -1,4 +1,3 @@
-from flask import Flask
 from flask import request
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
@@ -7,19 +6,6 @@ from pymongo import ObjectID
 #from bson.json_util import utils
 import json
 client = MongoClient()
-
-
-app = Flask(__name__)
-
-
-#app.config['MONGO_DBNAME'] = 'maymandb'
-#app.config['MONGO_URI'] = 'mongodb://mayman:12345@ds147118.mlab.com:47118/maymandb'
-#mongo = PyMongo(app)
-#print(app.config['MONGO_DBNAME'])
-
-
-
-
 
 
 

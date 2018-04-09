@@ -25,7 +25,7 @@ def CreateUser(user):
 			return {"error": "This user already exists"}
 
 		res = collection.insert(user)
-		return res
+		return {"id": res}
 	except Exception as e:
 		print e
 		return False

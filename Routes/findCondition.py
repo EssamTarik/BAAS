@@ -2,7 +2,6 @@ from flask import request
 from pymongo import MongoClient
 from bson.json_util import dumps
 import json
-from json import loads
 
 
 client = MongoClient()
@@ -25,11 +24,12 @@ def findCondition():
 	try: 
 		db =client[receivedArgs['dbname']]
 		collection =db[receivedArgs['collection']] 
-		found= collection.find(condition)
+		found = list(collection.find(condition))
 
-		if found.count()==0 :
+		if len(found)==0 :
 			return json.dumps({"code": 2, "message":"data not found" })
-		
-		return json.dumps({"code": 1, "message":"successfully found" })
-	except:
+		print(found)
+		return json.dumps({"code": 1, "message": json.loads(dumps(found))})
+	except Exception as e:
+		print e
 		return json.dumps({"code": 2, "message":"Unknown Error" })	

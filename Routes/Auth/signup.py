@@ -12,7 +12,7 @@ def signup():
 		if not arg in receivedArgs.keys() or len(receivedArgs[arg])==0:
 			return json.dumps({"code":2 ,"message":"missing argument "+arg})
 	
-	user = CreateUser(dict(receivedArgs))
+	user = CreateUser({"email": receivedArgs["email"], "password": receivedArgs["password"]})
 	if user:
 		if "error" in user.keys():
 			return json.dumps({"code": 2 ,"message": user['error']})
