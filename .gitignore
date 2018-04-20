@@ -1,1 +1,2 @@
 *.pyc
+websocket-server/node_modules
