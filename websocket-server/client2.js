@@ -25,7 +25,3 @@ listenToPath('sessiondb.comedyMovies', function(data){
 	console.log('path fetched');
 	console.log(data);
 })
-
-setTimeout(function(){
-	insert('sessiondb.comedyMovies', {name: 'this is an inserted movie'});
-}, 3000);

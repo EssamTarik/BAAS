@@ -28,7 +28,6 @@ def findCondition():
 
 		if len(found)==0 :
 			return json.dumps({"code": 2, "message":"data not found" })
-		print(found)
 		return json.dumps({"code": 1, "message": json.loads(dumps(found))})
 	except Exception as e:
 		print e

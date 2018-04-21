@@ -14,17 +14,13 @@ app=Flask(__name__)
 
 app.wsgi_app = AuthMiddleware(app.wsgi_app)
 
-@app.route('/')
-def index():
-	return 'hello'
-
 app.route('/login', methods=['GET', 'POST'])(login)
 app.route('/signup', methods=['GET', 'POST'])(signup)
 
-app.route('/insert', methods=['PUT'])(insert)
+app.route('/insert', methods=['GET'])(insert)
 
-app.route('/updateid', methods=['POST'])(updateByID)
-app.route('/update', methods=['POST'])(update)
+app.route('/updateid', methods=['GET'])(updateByID)
+app.route('/update', methods=['GET'])(update)
 
 app.route('/findCondition', methods=['GET'])(findCondition)
 app.route('/findId', methods=['GET'])(findId)
