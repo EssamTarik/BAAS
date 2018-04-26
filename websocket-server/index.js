@@ -32,6 +32,34 @@ function insert(data, obj, callback){
 	})
 }
 
+function remove(data, obj, callback){
+	let pathArray = data.path.split('.');
+	let dbname = pathArray[0];
+	let collection = pathArray[1];
+	var params = {dbname, collection, condition: obj};
+	axios.get(config.BackendURL + '/delete', {params , headers: {AUTHTOKEN: data.token}}).then(function(response){
+		console.log(response.data);
+		callback();
+	}).catch(function(error){
+		console.log(error.response)
+		emitToSocket(data.socket, data.path, error.response.data);
+	})
+}
+
+function update(data, obj, condition, callback){
+	let pathArray = data.path.split('.');
+	let dbname = pathArray[0];
+	let collection = pathArray[1];
+	var params = {dbname, collection, condition, data: obj};
+	axios.get(config.BackendURL + '/update', {params , headers: {AUTHTOKEN: data.token}}).then(function(response){
+		console.log(response.data);
+		callback();
+	}).catch(function(error){
+		console.log(error.response)
+		emitToSocket(data.socket, data.path, error.response.data);
+	})
+}
+
 io.on('connection', function(socket){
 	sockets[socket.id] = socket;
 	socket.on('disconnect', function(){
@@ -50,6 +78,20 @@ io.on('connection', function(socket){
 	socket.on('insert', function(data){
 		data.socket = socket;
 		insert(data, data.obj, function(){
+			findCondition(data, {}, emitToPath);
+		});
+	})
+
+	socket.on('remove', function(data){
+		data.socket = socket;
+		remove(data, data.condition, function(){
+			findCondition(data, {}, emitToPath);
+		});
+	})
+
+	socket.on('update', function(data){
+		data.socket = socket;
+		update(data, data.data, data.condition, function(){
 			findCondition(data, {}, emitToPath);
 		});
 	})

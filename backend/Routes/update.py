@@ -1,3 +1,4 @@
+from flask import request
 from pymongo import MongoClient
 from bson.json_util import dumps
 import json
@@ -35,4 +36,4 @@ def update():
 
 
 
-	return json.dumps({"code":1 ,"message":"date successfully updated"})
+	return json.dumps({"code":1 ,"message":"data successfully updated"})

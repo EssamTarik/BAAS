@@ -21,11 +21,19 @@ function insert(path, data){
 	socket.emit('insert', {path: path, token: token, obj: data});
 }
 
+function remove(path, data){
+	socket.emit('remove', {path: path, token: token, condition: data});
+}
+
+function update(path, condition, data){
+	socket.emit('update', {path: path, token: token, condition: condition, data: data});
+}
+
 listenToPath('sessiondb.comedyMovies', function(data){
 	console.log('path fetched');
 	console.log(data);
 })
 
 setTimeout(function(){
-	insert('sessiondb.comedyMovies', {name: 'this is an inserted movie'});
+	update('sessiondb.comedyMovies', {name: "the hangover"}, {name: 'updated by websocket'});
 }, 3000);
