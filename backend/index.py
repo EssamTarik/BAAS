@@ -8,6 +8,7 @@ from Routes.update import update
 from Routes.updateById import updateByID
 from Routes.findCondition import findCondition
 from Routes.findId import findId
+from Routes.delete import delete
 
 
 app=Flask(__name__)
@@ -18,6 +19,7 @@ app.route('/login', methods=['GET', 'POST'])(login)
 app.route('/signup', methods=['GET', 'POST'])(signup)
 
 app.route('/insert', methods=['GET'])(insert)
+app.route('/delete', methods=['GET'])(delete)
 
 app.route('/updateid', methods=['GET'])(updateByID)
 app.route('/update', methods=['GET'])(update)

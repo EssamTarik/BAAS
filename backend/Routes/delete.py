@@ -1,72 +1,31 @@
 from flask import request
-from flask_pymongo import PyMongo
 from pymongo import MongoClient
-from pymongo import ObjectID
-
-#from bson.json_util import utils
+from bson.json_util import dumps
 import json
+
+
 client = MongoClient()
-
-
-
-@app.route('/delete', methods=['DELETE'])
 def delete():
-	requiredArgs = ['dbname', 'collection']
-	receviedArgs = request.args
-
-	for arg in requiredArgs:
-		if not arg in receviedArgs.keys() or len(receviedArgs[arg]) == 0:
-			return json.dumps({"code": 2, "message": "missing args " + arg})
-
-		if receviedArgs['collection'][0] == '_':
-			return json.dumps({"code": 2, "message": "Can not start with _"})
-
-		if not receviedArgs['dbname'] in client.database_names():
-			return json.dumps({"code": 2, "message": "db does not exist"})
-
+	requiredArgs = ['dbname','collection','condition']
+	receivedArgs = request.args
+	for item in requiredArgs:
+		if not item in receivedArgs.keys() or len(receivedArgs[item])==0:
+			return json.dumps({ "code": 2, "message": "Missing Argument " +item})
+	if receivedArgs['collection'][0]=='_':
+		return json.dumps({"code": 2, "message": "Collection name can't start with an underscore" })
+	#now we have checked if the request is sent in a right form let's check if the data in the request r also correct db wisely
+	if not receivedArgs['dbname'] in client.database_names() :
+		return json.dumps({"code": 2, "message": receivedArgs['dbname'] + "Is not an existing Database" })
+	try:
+		condition = json.loads(receivedArgs['condition'])
+	except:
+		return json.dumps({"code": 2, "message": "The condition must be in JSON format" })
 	
-	if "id" in recievedArgs.keys():
-		 id = receivedArgs['id']
- 		collection.remove({'_id': ObjectID(id)})
-	else if "condition" in recievedArgs.keys():
-		condition = receviedArgs['condition']
- 		collection.remove(receviedJson[data])
-	else:
- 		return json.dumps({"code": 2, message: "must supply id or condition"})
-
- 	return json.dumps({"code": 1, message: "successfully deleted"})
-
-
-
-		try:
-			receviedJson = json.loads(receviedArgs['condition'])
-		except:
-			return json.dumps({"code": 2, "message": "data must be in JSON format"})
-
-		db = client[receviedArgs]['dbname']
-		collection = db[receviedArgs]['collection']
-		condition = receviedArgs['condition']
-		try:
-			collection.remove(receviedJson[data])
-		except:
-			return json.dumps({"code": 2, "message": "invalid Collection"})
-
-		id = receivedArgs['id']
-		try:
- 			collection.remove({'_id': ObjectID(id)})
- 		except:
- 			return json.dumps({"code": 2, "message": "Invalid ID"})
-
-
-
-	
-
-
-
-
-
-
-
-if __name__ == '__main__':
-	app.run(debug=True)
-
+	try: 
+		db =client[receivedArgs['dbname']]
+		collection =db[receivedArgs['collection']] 
+		collection.remove(condition)
+		return json.dumps({"code": 1, "message":"Successfully deleted" })	
+	except Exception as e:
+		print e
+		return json.dumps({"code": 2, "message":"Unknown Error" })	
