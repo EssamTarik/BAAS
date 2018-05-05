@@ -9,7 +9,7 @@ const socket = io('http://localhost');
 
 //util.inherts(baas,io);
 //util.inherts(baas,http);
-util.inherits(baas,events);
+//util.inherits(baas,events);
 //util.inherits(baas,io);
 
 
