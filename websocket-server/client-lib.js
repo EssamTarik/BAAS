@@ -1,10 +1,9 @@
-module.exports=baas;
 //var http = require('http');
 //var io = require('socket.io')(http);
 var util = require('util');
 var events = require('events');
 var io = require('socket.io-client');
-const socket = io('http://localhost');
+const socket = io('http://localhost:3000');
 
 
 //util.inherts(baas,io);
@@ -13,49 +12,30 @@ const socket = io('http://localhost');
 //util.inherits(baas,io);
 
 
-function baas() {
+const baas = {
 
-	this.listen= function(path,callback,token,data) {
-	
-	socket.on(path,,function(path){
-		
-		//i think we should make an event for the token and i emit it here and send me back data.code and i use it every time to verify the action so i will do it like this 
-		
-		
-		callback(path);
-	});
+	listen: function(path, token, callback) {
+		socket.on(path,function(data){
+			callback(data);
+		});
+		socket.emit("listen",{path:path,token:token});
+	},
 
-	socket.emit("listen",{path:path,token:token});
-
-};
-	this.insert= function(path,token,obj){
+	insert: function(path,token,obj){
 		socket.emit('insert',{path:path,token:token,obj:obj});
-	};
+	},
 
+	remove: function(path, token, condition){
+		socket.emit('remove',{path:path, token:token, condition:condition});
 
- 
+	},
 
-
-	this.remove=function(path,obj,*condition????,token){
-		socket.emit('remove',{path:path,obj:obj,token:token,condition:condition});
-
-	};
-
-
-
-	this.delete=function(path,obj,*condition????,token){
-		socket.emit('delete',{path:path,obj:obj,token:token,condition:condition});
-
-	};
-
-
-
-	this.update=function(path,obj,*condition????,token){
-		socket.emit('update',{path:path,obj:obj,token:token,condition:condition});
-
-	};
+	update: function(path, token, condition, data){
+		socket.emit('update',{path:path,token:token,condition:condition, data:data});
+	},
 
 };
 
 
 
+module.exports=baas;
