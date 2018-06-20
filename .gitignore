@@ -1,2 +1,4 @@
 *.pyc
+*/node_modules
 websocket-server/node_modules
+demo/react-demo-app/node_modules
