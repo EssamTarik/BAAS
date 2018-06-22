@@ -1,6 +1,6 @@
 import json
 from Config.JwtConfig import encode, decode 
-from AuthFunctions import CheckUser, CheckToken
+from AuthFunctions import CheckUser
 
 class AuthMiddleware(object):
 	def __init__(self, app):
@@ -10,15 +10,8 @@ class AuthMiddleware(object):
 	def killUnauthorized(self, response):
 		write = self.start_response('401 Unauthorized', [('Content-Type', 'text/json')])
 		return response
-	def parseQueryString(self, string):
-		queryParams = string.split('&')
-		queryParamsDict = {}
-		for param in queryParams:
-			paramArray = param.split('=')
-			queryParamsDict[paramArray[0]] = paramArray[1]
-		return queryParamsDict
+
 	def __call__(self, environ, start_response):
-		self.dbname = self.parseQueryString(environ['QUERY_STRING']).get('dbname', False)
 		if environ['PATH_INFO'][1:] in self.whitelist:
 			return self.app(environ, start_response)
 			
@@ -29,7 +22,13 @@ class AuthMiddleware(object):
 			msg = json.dumps({"code": 2, "message": "No Authorization Token supplied"})
 			return self.killUnauthorized(msg)
 
-		if self.dbname and CheckToken(token, self.dbname):
+		try:
+			user = decode(token)
+		except:
+			msg = json.dumps({"code": 2, "message": "Failed to decode token"})
+			return self.killUnauthorized(msg)
+
+		if CheckUser(user):
 			return self.app(environ, start_response)
 		else:
 			msg = json.dumps({"code": 2, "message": "Unauthorized"})

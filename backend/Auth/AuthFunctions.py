@@ -17,6 +17,21 @@ def CheckUser(user):
 	else:
 		return False
 
+def CheckToken(token, dbname):
+	targetDB = client[dbname]
+	collection = targetDB['_config']
+	targetToken = list(collection.find({'option': 'token'}))
+	if len(targetToken) > 0:
+		targetToken = targetToken[0]['value']
+
+		if token == targetToken:
+			return True
+		else:
+			return False
+
+	else:
+		return False
+
 def CreateUser(user):
 	collection = db[UsersCollection]
 	try:
