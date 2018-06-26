@@ -11,6 +11,8 @@ class AuthMiddleware(object):
 		write = self.start_response('401 Unauthorized', [('Content-Type', 'text/json')])
 		return response
 	def parseQueryString(self, string):
+		if len(string) == 0:
+			return {}
 		queryParams = string.split('&')
 		queryParamsDict = {}
 		for param in queryParams:
@@ -19,7 +21,7 @@ class AuthMiddleware(object):
 		return queryParamsDict
 	def __call__(self, environ, start_response):
 		self.dbname = self.parseQueryString(environ['QUERY_STRING']).get('dbname', False)
-		if environ['PATH_INFO'][1:] in self.whitelist:
+		if environ['PATH_INFO'][1:] in self.whitelist or environ['PATH_INFO'][1:].startswith('admin'):
 			return self.app(environ, start_response)
 			
 		self.start_response = start_response

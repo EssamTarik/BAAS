@@ -13,6 +13,11 @@ from Routes.delete import delete
 
 app=Flask(__name__)
 
+
+@app.after_request
+def after_request(response):
+	response.headers['Access-Control-Allow-Origin'] = '*'
+	return response
 app.wsgi_app = AuthMiddleware(app.wsgi_app)
 
 app.route('/login', methods=['GET', 'POST'])(login)
@@ -27,6 +32,10 @@ app.route('/update', methods=['GET', 'POST'])(update)
 app.route('/findCondition', methods=['GET'])(findCondition)
 app.route('/findId', methods=['GET'])(findId)
 
+@app.route('/admin/test')
+def test():
+	import json
+	return json.dumps({"name": "essam"})
 
 
 app.run(host='localhost',debug=True)
