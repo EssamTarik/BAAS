@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {request} from './services/backend';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux'
+import apiTest from './actions/apiTest';
 
 class App extends Component {
 	componentDidMount(){
-		request('test', (response) => {
-			console.log(response);
-		})
+		this.props.apiTest();
 	}
 	render() {
+		console.log(this.props.apiTestReducer);
 		return (
 			<div className="App">
 				<header className="App-header">
@@ -23,5 +24,10 @@ class App extends Component {
 		);
 	}
 }
-
-export default App;
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({apiTest}, dispatch);
+}
+const mapStateToProps = (state) => {
+	return {testReducer: state.test, apiTestReducer: state.apiTest}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
