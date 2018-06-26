@@ -3,3 +3,4 @@
 websocket-server/node_modules
 demo/react-demo-app/node_modules
 baas-admin-deprecated/node_modules
+*.sqlite3
