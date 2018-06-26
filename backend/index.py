@@ -10,6 +10,7 @@ from Routes.findCondition import findCondition
 from Routes.findId import findId
 from Routes.delete import delete
 
+from Routes.Admin.test import test
 
 app=Flask(__name__)
 
@@ -32,10 +33,6 @@ app.route('/update', methods=['GET', 'POST'])(update)
 app.route('/findCondition', methods=['GET'])(findCondition)
 app.route('/findId', methods=['GET'])(findId)
 
-@app.route('/admin/test')
-def test():
-	import json
-	return json.dumps({"name": "essam"})
-
+app.route('/admin/test')(test)
 
 app.run(host='localhost',debug=True)

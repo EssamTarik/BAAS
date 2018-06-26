@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {request} from './services/backend';
 
 class App extends Component {
 	componentDidMount(){
-		fetch('http://localhost:5000/admin/test').then((response) => response.text()).then((response) => console.log(response))
+		request('test', (response) => {
+			console.log(response);
+		})
 	}
 	render() {
 		return (
