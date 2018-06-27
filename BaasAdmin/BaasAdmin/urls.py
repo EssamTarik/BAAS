@@ -16,8 +16,20 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from views.index import index
+from views.viewDB import viewDB
+from views.viewCollection import viewCollection
+from views.projectcontrol import removeProject, createProject
+from django.http import HttpResponse
+
+def getIcon(request):
+	return HttpResponse('')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
+    url(r'^favicon.ico$', getIcon),
+    url(r'^api/remproj$', removeProject),
+    url(r'^api/newproj$', createProject),
+    url(r'^([^/]*)/?$', viewDB),
+    url(r'^([^/]*)/([^/]*)/?$', viewCollection),
 ]

@@ -2,6 +2,16 @@
 
 {%block body%}
 	<div class="container-fluid">
+		<div class="row" style="text-align: right;">
+			<div class="col-xs-6"></div>
+			<div style='margin: 0; padding: 0;' class="col-xs-4">
+				<input placeholder="project name" type="text" class="form-control" id="newProjectName">
+			</div>
+			<div style="text-align: left;" class="col-xs-2">
+				<button onclick="createProject()" type="button" class="btn btn-success btn-md">Create Project</button>
+			</div>
+		</div>
+		<br>
 		{%for project in projects%}
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -19,4 +29,18 @@
 		</div>
 		{%endfor%}
 	</div>
+{%endblock%}
+
+{%block jsincludes%}
+<script>
+	function createProject(){
+		var name = $("#newProjectName").val()
+		$.get('/api/newproj?name='+name, function(response){
+			if(response != 'created')
+				alert(response)
+			else
+				location.href='/';
+		})
+	}
+</script>
 {%endblock%}
