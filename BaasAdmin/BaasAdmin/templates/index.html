@@ -1,4 +1,22 @@
-<html>
-<script src="/static/test.js">
-</script>
-</html>
+{%extends "base.html"%}
+
+{%block body%}
+	<div class="container-fluid">
+		{%for project in projects%}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a href="/{{project.name}}"><h3 class="panel-title">{{project.name}}</h3></a>
+			</div>
+			<div class="panel-body">
+				<ul>
+				{%for collection in project.collections %}
+					{% if not collection|first == '_' %}
+					<li><a href="/{{project.name}}/{{collection}}">{{collection}}</a></li>
+					{% endif %}
+				{%endfor%}
+				</ul>
+			</div>
+		</div>
+		{%endfor%}
+	</div>
+{%endblock%}
