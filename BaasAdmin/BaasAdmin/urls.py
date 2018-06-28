@@ -19,6 +19,7 @@ from views.index import index
 from views.viewDB import viewDB
 from views.viewCollection import viewCollection
 from views.projectcontrol import removeProject, createProject
+from views.collectioncontrol import dropCollection
 from django.http import HttpResponse
 
 def getIcon(request):
@@ -30,6 +31,7 @@ urlpatterns = [
     url(r'^favicon.ico$', getIcon),
     url(r'^api/remproj$', removeProject),
     url(r'^api/newproj$', createProject),
+    url(r'^api/remcollection$', dropCollection),
     url(r'^([^/]*)/?$', viewDB),
     url(r'^([^/]*)/([^/]*)/?$', viewCollection),
 ]
