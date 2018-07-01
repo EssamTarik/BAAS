@@ -6,7 +6,12 @@ client = MongoClient()
 configCollection = '_config'
 
 def getAllCollections(dbname):
-	return client[dbname].collection_names()
+	collections = client[dbname].collection_names()
+	try:
+		collections.remove('system.indexes')
+	except Exception:
+		pass
+	return collections
 
 def getProjectCollections(dbname):
 	collections = []
@@ -26,3 +31,7 @@ def removeCollection(dbname, collectionName):
 
 def renameCollection(dbname, collectionName, newCollectionName):
 	client[dbname][collectionName].rename(newCollectionName)
+
+def createCollection(dbname, collectionName):
+	print dbname
+	client[dbname].create_collection(collectionName)

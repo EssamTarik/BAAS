@@ -20,7 +20,7 @@
 			<div class="panel-body">
 				<ul>
 				{%for collection in project.collections %}
-					{% if not collection|first == '_' %}
+					{% if not collection|first == '_' and collection != 'system.indexes' %}
 					<li><a href="/{{project.name}}/{{collection}}">{{collection}}</a></li>
 					{% endif %}
 				{%endfor%}
